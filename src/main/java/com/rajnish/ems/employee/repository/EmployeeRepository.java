@@ -6,4 +6,6 @@ import com.rajnish.ems.employee.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee,Long>{
 
+	public boolean existsByEmployeeCode(String name);
+	public boolean existsByEmail(String email);
 }
