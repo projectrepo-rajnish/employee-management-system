@@ -1,6 +1,7 @@
 package com.rajnish.ems.employee.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class EmployeeController {
 
 	private EmployeeService services;
 	
+	@PostMapping
 	public EmployeeResponse createEmployee(@Valid @RequestBody CreateEmployeeRequest request){
 		
 		EmployeeResponse createEmployee = this.services.createEmployee(request);

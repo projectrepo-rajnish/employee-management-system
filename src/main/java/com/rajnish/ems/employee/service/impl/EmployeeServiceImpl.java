@@ -14,8 +14,10 @@ import com.rajnish.ems.employee.repository.EmployeeRepository;
 import com.rajnish.ems.employee.service.EmployeeService;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeRepository repository;
