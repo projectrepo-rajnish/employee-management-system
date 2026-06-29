@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rajnish.ems.employee.dto.CreateEmployeeRequest;
+import com.rajnish.ems.employee.dto.EmailExistsResponse;
 import com.rajnish.ems.employee.dto.EmployeeResponse;
 import com.rajnish.ems.employee.service.EmployeeService;
 import com.rajnish.ems.response.ApiResponse;
@@ -65,6 +66,15 @@ public class EmployeeController {
 		Page<EmployeeResponse> allEmployees = this.services.getAllEmployees(page, size);
 		
 	    return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("Data fetched successfully!", allEmployees));
+	}
+	
+	@GetMapping("/exist-by-email")
+	public ResponseEntity<ApiResponse<EmailExistsResponse>> existByEmail(@RequestParam String email){
+		
+		EmailExistsResponse existsByEmail = this.services.existsByEmail(email);
+		
+		return ResponseEntity.ok(ApiResponse.success(existsByEmail.getMessage(),existsByEmail));
+		
 	}
 	
 }
