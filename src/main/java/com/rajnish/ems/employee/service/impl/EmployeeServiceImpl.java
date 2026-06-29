@@ -5,11 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.rajnish.ems.employee.common.exception.BadRequestException;
 import com.rajnish.ems.employee.common.exception.ResourceNotFoundException;
 import com.rajnish.ems.employee.dto.CreateEmployeeRequest;
+import com.rajnish.ems.employee.dto.EmailExistsResponse;
 import com.rajnish.ems.employee.dto.EmployeeResponse;
 import com.rajnish.ems.employee.entity.Employee;
 import com.rajnish.ems.employee.mapper.EmployeeMapper;
@@ -58,6 +60,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	        Page<Employee> employees = repository.findAll(pageable);
 	        return employees.map(employee -> mapper.toResponse(employee));
+	}
+
+	@Override
+	public EmailExistsResponse existsByEmail(String email) {
+		// TODO check if emailid present or not
+		
+		if(email==null || email.trim().isEmpty())
+			throw new BadRequestException("Email nis required");
+		
+		boolean existsByEmail = this.repository.existsByEmail(email);
+		String messge=existsByEmail?"Email found":"Email not found";
+		
+		EmailExistsResponse emailesponse=new EmailExistsResponse(email,existsByEmail,messge);
+		return emailesponse;
 	}
 
 }
