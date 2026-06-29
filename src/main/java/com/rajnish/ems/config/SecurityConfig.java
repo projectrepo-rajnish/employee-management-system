@@ -16,6 +16,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/health").permitAll()
+                .requestMatchers("/api/employees", "/api/employees/**").hasAnyRole("ADMIN", "HR")
                 .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults());

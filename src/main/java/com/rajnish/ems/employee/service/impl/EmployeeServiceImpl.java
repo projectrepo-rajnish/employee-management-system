@@ -2,6 +2,9 @@ package com.rajnish.ems.employee.service.impl;
 
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.rajnish.ems.employee.common.exception.BadRequestException;
@@ -50,9 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Page<EmployeeResponse> getAllEmployees(int page, int size) {
-		// TODO Auto-generated method stub
-		return null;
+	public Page<EmployeeResponse> getAllEmployees(int pageno, int pageSize) {
+		 Pageable pageable = PageRequest.of(pageno, pageSize, Sort.by(Sort.Direction.DESC, "id"));
+
+	        Page<Employee> employees = repository.findAll(pageable);
+	        return employees.map(employee -> mapper.toResponse(employee));
 	}
 
 }
