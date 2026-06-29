@@ -16,16 +16,22 @@ import com.rajnish.ems.employee.dto.EmployeeResponse;
 import com.rajnish.ems.employee.service.EmployeeService;
 import com.rajnish.ems.response.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/employees")
 @AllArgsConstructor
+@Tag(name = "Employee APIs", description = "APIs for employee CRUD, search, status update and soft delete")
+@SecurityRequirement(name = "basicAuth")
 public class EmployeeController {
 
 	private EmployeeService services;
 	
+	@Operation(summary = "Create employee", description = "Creates a new employee with unique employee code and email")
 	@PostMapping
 	public ResponseEntity<ApiResponse<EmployeeResponse>> createEmployee(@Valid @RequestBody CreateEmployeeRequest request){
 		
@@ -59,10 +65,11 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Message4");
 	}
 	
+	@Operation(summary = "getallemployee",description = "getallemployee by using pagination")
 	@GetMapping
 	public ResponseEntity<ApiResponse<Page<EmployeeResponse>>> getAllEmployee(@RequestParam(defaultValue ="0") int page, @RequestParam(defaultValue ="10") int size){
 	    
-		
+		System.out.println("GETALLEMPLOYEE.................");
 		Page<EmployeeResponse> allEmployees = this.services.getAllEmployees(page, size);
 		
 	    return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success("Data fetched successfully!", allEmployees));
